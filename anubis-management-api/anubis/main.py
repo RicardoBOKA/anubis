@@ -1,13 +1,22 @@
 from fastapi import Depends, FastAPI, Response
+
 from anubis.tenants import routers as t
 from anubis.tenants import models as t_models
 from anubis.tenants import operations as t_operations
+
+from anubis.restrictions import routers as r
+from anubis.restrictions import models as r_models
+
 from anubis.policies import routers as p
 from anubis.policies import models as p_models
+
 from anubis.audit import routers as a
 from anubis.audit import models as a_models
+
 from anubis.middleware import routers as m
+
 from anubis.version import ANUBIS_VERSION
+
 from fastapi.openapi.utils import get_openapi
 from fastapi_utils.tasks import repeat_every
 from anubis.database import engine, SessionLocal
@@ -26,6 +35,10 @@ tags_metadata = [
     {
         "name": "policies",
         "description": "Manage Policies for each Tenant and Service Path within a Tenant.",
+    },
+    {
+        "name": "restrictions",
+        "description": "Manage Restrictions",
     },
 ]
 
@@ -56,6 +69,8 @@ app.include_router(p.router)
 app.include_router(a.router)
 app.include_router(m.router)
 
+app.include_router(r.router)
+
 
 @app.get("/", summary="Return Anubis API endpoints")
 async def root():
@@ -70,6 +85,7 @@ async def v1_root():
     return {
         "tenants_url": "/v1/tenants",
         "policies_url": "/v1/policies",
+        "restricion_url": "/v1/restrictions",
         "middleware_url": "/v1/middleware",
         "audit_url": "/v1/audit"}
 
@@ -85,6 +101,7 @@ def on_startup():
     p_models.init_db()
     t_models.init_db()
     a_models.init_db()
+    r_models.init_db()
 
 
 @app.on_event("startup")

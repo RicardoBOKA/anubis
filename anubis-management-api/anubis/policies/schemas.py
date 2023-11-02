@@ -115,3 +115,15 @@ class AgentType(AgentTypeBase):
 
     class Config:
         orm_mode = True
+
+
+# class RestricitonBase(BaseModel):
+#     id: str
+
+# class RestrictionCreate(RestricitonBase):
+#     pass
+
+# class Restriction(RestricitonBase):
+
+#     class Config:
+#         orm_mode = True

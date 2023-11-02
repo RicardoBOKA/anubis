@@ -24,7 +24,7 @@ while [ "$(curl -s -o /dev/null -L -w ''%{http_code}'' $HOST)" != "200" ] && [ $
 do
   echo "Waiting for Keycloak..."
   sleep 5
-  wait=$((wait+5))
+  wait=$((wait+1))
   echo "Elapsed time: $wait"
 done
 
@@ -39,7 +39,7 @@ while [ "$(curl -s -o /dev/null -L -w ''%{http_code}'' $HOST)" != "200" ] && [ $
 do
   echo "Waiting for anubis..."
   sleep 5
-  wait=$((wait+5))
+  wait=$((wait+1))
   echo "Elapsed time: $wait"
 done
 

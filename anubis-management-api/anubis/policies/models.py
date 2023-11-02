@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship, column_property
 from ..database import autocommit_engine, Base, SessionLocal
 from sqlalchemy import event, select, func
 from ..tenants.models import ServicePath, Tenant
+from ..restrictions.models import Restriction
 from ..rego import serialize as r_serialize
 from uuid import uuid4
 

@@ -18,7 +18,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: orchestracities/anubis-management-api:test
+    image: anubis_api:teest #orchestracities/anubis-management-api:test
     networks:
       - envoymesh
     environment:
@@ -105,6 +105,21 @@ services:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=anubis
+    networks:
+      - envoymesh
+
+  pgweb:
+    container_name: pgweb
+    restart: always
+    image: sosedoff/pgweb
+    ports:
+      - "8081:8081"
+    links:
+      - postgresserver
+    environment:
+      - PGWEB_DATABASE_URL=postgres://admin:password@postgresserver:5432/postgres?sslmode=disable
+    depends_on:
+      - postgresserver
     networks:
       - envoymesh
 
