@@ -2,6 +2,7 @@ from typing import List
 from sqlalchemy.orm import Session
 from fastapi import Depends, APIRouter, HTTPException, status, Response, Header
 from . import operations, schemas
+import anubis.default as default
 from ..dependencies import get_db
 from ..utils import OptionalHTTPBearer, parse_auth_token
 
@@ -13,13 +14,16 @@ router = APIRouter(prefix="/v1/restrictions",
 
 @router.post("/", response_class=Response, status_code=status.HTTP_201_CREATED, summary="Create restriction")
 def create_restriciton(response: Response, restriction : schemas.RestrictionCreate, target_name: str, target_id: str, db: Session = Depends(get_db)):
+    #Création d'une restriction avec target_name en lowercase
+    new_restriction = operations.create_restriciton(db=db, restriction=restriction, target_name=target_name.lower(), target_id=target_id)
     
-    new_restriction = operations.create_restriciton(db=db, restriction=restriction, target_name=target_name, target_id=target_id)
+    #Si target_name (en lowercase) n'est pas dans la liste DEFAULT_TABLES (defult.py) une erreur de validation est levée. 
+    if new_restriction.get_target_name() not in default.DEFAULT_TABLES:
+        raise HTTPException(status_code=400, detail="Invalid table name. Must be one of 'Policy', 'ServicePath', 'Agent'")
     
     response.headers["Restriction-ID"] = new_restriction.id
     response.status_code = status.HTTP_201_CREATED
     return response
-
 
 @router.get("/", response_model=List[schemas.Restriction])
 def get_all_restrictions(db: Session = Depends(get_db)):

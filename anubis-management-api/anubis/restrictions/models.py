@@ -16,9 +16,9 @@ class Restriction(Base):
         self.table_target_id = f"{table_name}:{instance_id}"
 
     def get_target_name(self):
-        return self.targetID[0]
+        return self.table_target_id.split(":")[0]
     def get_target_id(self):
-        return self.targetID[2:]
+        return self.table_target_id.split(":")[1]
 
 
 def init_db():

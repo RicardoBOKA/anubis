@@ -14,10 +14,19 @@ READ_RESTRICTION = 'acl:ReadRestriction'
 WRITE_RESTRICTION = 'acl:WriteRestriction'
 CONTROL_RESTRICTION = 'acl:ControlRestriction'
 
+POLICY_TABLE = "policy"
+AGENT_TABLE = "agent"
+SERVICEPATH_TABLE = "servicepath"
+
 # custom
 DELETE_MODE_IRI = 'oc-acl:Delete'
 SAME_TENANT_AS_RESOURCE_AGENT_ID = 'oc-acl:ResourceTenantAgent'
 DEFAULT = 'default'
+
+DEFAULT_TABLES = [
+    POLICY_TABLE,
+    AGENT_TABLE,
+    SERVICEPATH_TABLE]
 
 # commodity
 DEFAULT_MODES = [
